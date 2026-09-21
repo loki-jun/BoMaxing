@@ -1,0 +1,366 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BoMaxing.Studio"
+        xmlns:project="using:BoMaxing.Core.Project"
+        x:Class="BoMaxing.Studio.MainWindow"
+        x:DataType="vm:StudioViewModel"
+        Width="1440"
+        Height="900"
+        MinWidth="1100"
+        MinHeight="700"
+        Title="BoMaxing Studio"
+        Background="#10161D">
+  <Grid RowDefinitions="56,*" ColumnDefinitions="240,*,320">
+    <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#18222C" BorderBrush="#2B3946" BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="240,*,Auto" Margin="18,0">
+        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <Border Width="28" Height="28" CornerRadius="6" Background="#35B6A5">
+            <TextBlock Text="B" Foreground="#071311" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <TextBlock Text="BoMaxing Studio" Foreground="#F4F7FA" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Button Content="工程" Classes="top-nav" />
+          <Button Content="设备" Classes="top-nav" />
+          <Button Content="工具" Classes="top-nav" />
+          <Button Content="运行" Classes="top-nav" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <StackPanel Spacing="2" VerticalAlignment="Center">
+            <TextBlock Text="{Binding CurrentUserSummary}" Foreground="#D6E2E9" FontSize="11" />
+            <TextBlock Text="{Binding HmiSummary}" Foreground="#8194A2" FontSize="10" />
+            <TextBlock Text="{Binding LoginStatus}" Foreground="#8194A2" FontSize="9" />
+          </StackPanel>
+          <TextBox Text="{Binding LoginUserName}" Watermark="User" Width="90" />
+          <TextBox Text="{Binding LoginPassword}" PasswordChar="●" Watermark="Password" Width="90" />
+          <Button Content="Sign in" Command="{Binding LoginCommand}" Padding="6,3" />
+          <Button Content="Sign out" Command="{Binding LogoutCommand}" Padding="6,3" />
+          <TextBlock Text="Runtime" Foreground="#96A6B5" VerticalAlignment="Center" />
+          <Border Background="#163C37" CornerRadius="12" Padding="10,5">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <Ellipse Width="8" Height="8" Fill="{Binding RuntimeStatusColor}" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding RuntimeStatus}" Foreground="#9BE8CC" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="0" Background="#141D25" BorderBrush="#2B3946" BorderThickness="0,0,1,0" Padding="14,18">
+      <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Text="PROJECT" Foreground="#6F8494" FontSize="11" FontWeight="Bold" />
+        <StackPanel Grid.Row="1" Margin="0,14,0,18" Spacing="8">
+          <TextBlock Text="{Binding ProjectName}" Foreground="#EAF0F4" FontSize="15" />
+          <TextBlock Text="{Binding WorkflowName}" Foreground="#91A3B1" FontSize="12" />
+        </StackPanel>
+        <TreeView Grid.Row="2" Background="Transparent" BorderThickness="0">
+          <TreeViewItem Header="Workflows" IsExpanded="True">
+            <TreeViewItem Header="{Binding WorkflowName}" IsSelected="True" />
+          </TreeViewItem>
+          <TreeViewItem Header="Devices" IsExpanded="True">
+            <ItemsControl ItemsSource="{Binding Devices}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:DeviceItemViewModel">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto" Margin="8,2">
+                    <Button Content="{Binding Summary}" Command="{Binding SelectCommand}" Foreground="#91A3B1" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" />
+                    <TextBlock Grid.Column="1" Text="{Binding StateText}" Foreground="#45D6A7" FontSize="10" VerticalAlignment="Center" Margin="4,0" />
+                    <Button Grid.Column="2" Content="Connect" Command="{Binding ConnectCommand}" Padding="4,2" Margin="2,0" />
+                    <Button Grid.Column="3" Content="Disconnect" Command="{Binding DisconnectCommand}" Padding="4,2" Margin="2,0" />
+                    <Button Grid.Column="4" Content="Capture" Command="{Binding CaptureCommand}" Padding="4,2" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </TreeViewItem>
+          <TreeViewItem Header="Recipes" IsExpanded="True">
+            <ItemsControl ItemsSource="{Binding Recipes}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:RecipeItemViewModel">
+                  <Button Content="{Binding Name}" Command="{Binding SelectCommand}" Foreground="#91A3B1" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Margin="8,2" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </TreeViewItem>
+          <TreeViewItem Header="Models" />
+        </TreeView>
+        <StackPanel Grid.Row="3" Spacing="8">
+          <Grid ColumnDefinitions="*,*">
+            <Button Content="+ Recorded Camera" Command="{Binding AddRecordedCameraCommand}" />
+            <Button Grid.Column="1" Content="+ Native Camera" Command="{Binding AddNativeCameraCommand}" Margin="6,0,0,0" />
+          </Grid>
+          <Button Content="+ Recipe" Command="{Binding AddRecipeCommand}" HorizontalContentAlignment="Left" />
+          <Button Content="Open Project" Command="{Binding OpenProjectCommand}" HorizontalContentAlignment="Left" />
+          <Button Content="Save Project" Command="{Binding SaveProjectCommand}" HorizontalContentAlignment="Left" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="Auto,*,220" Background="#0F151B">
+      <Border Background="#18222C" BorderBrush="#2B3946" BorderThickness="0,0,0,1" Padding="18,12">
+        <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto" VerticalAlignment="Center">
+          <StackPanel>
+            <TextBlock Text="{Binding WorkflowName}" Foreground="#F4F7FA" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Nodes.Count, StringFormat='{}{0} nodes · workflow editor'}" Foreground="#8194A2" FontSize="12" Margin="0,4,0,0" />
+          </StackPanel>
+          <Button Grid.Column="1" Content="Undo" Command="{Binding UndoCommand}" Margin="8,0" />
+          <Button Grid.Column="2" Content="Redo" Command="{Binding RedoCommand}" Margin="8,0" />
+          <Button Grid.Column="3" Content="Step" Margin="8,0" />
+          <Button Grid.Column="4" Content="Run Workflow" Command="{Binding RunWorkflowCommand}" Background="#35B6A5" Foreground="#071311" />
+          <Button Grid.Column="5" Content="Stop" Command="{Binding StopWorkflowCommand}" Margin="8,0,0,0" Background="#E36E7A" Foreground="#1B1114" />
+        </Grid>
+      </Border>
+
+      <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Canvas x:Name="WorkflowCanvas" Width="980" Height="500" Background="#0F151B">
+          <Rectangle Canvas.Left="0" Canvas.Top="0" Width="980" Height="500" Stroke="#18232C" StrokeDashArray="2,8" />
+          <ItemsControl ItemsSource="{Binding Connections}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <Canvas />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:WorkflowEdgeViewModel">
+                <Line StartPoint="{Binding StartPoint}" EndPoint="{Binding EndPoint}" Stroke="#35B6A5" StrokeThickness="2" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <ItemsControl ItemsSource="{Binding Nodes}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <Canvas />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:WorkflowNodeViewModel">
+                <Border Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="245" Background="#1B2933" BorderBrush="{Binding StatusColor}" BorderThickness="1" CornerRadius="6" Padding="14" PointerPressed="NodePointerPressed" PointerMoved="NodePointerMoved" PointerReleased="NodePointerReleased" Cursor="Hand">
+                  <Button Command="{Binding SelectCommand}" Background="Transparent" BorderThickness="0" Padding="0">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*">
+                      <TextBlock Text="{Binding Category}" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+                      <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Name}" Foreground="#F4F7FA" FontSize="15" />
+                      <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding ToolType}" Foreground="#91A3B1" FontSize="11" TextWrapping="Wrap" />
+                      <StackPanel Grid.Row="3" Grid.Column="0" Spacing="2" Margin="0,6,4,0">
+                        <ItemsControl ItemsSource="{Binding Inputs}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:PortViewModel">
+                              <Button Content="{Binding DisplayName}" Command="{Binding ActivateCommand}" HorizontalContentAlignment="Left" Padding="3" Background="#22323C" />
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </StackPanel>
+                      <StackPanel Grid.Row="3" Grid.Column="1" Spacing="2" Margin="4,6,0,0">
+                        <ItemsControl ItemsSource="{Binding Outputs}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:PortViewModel">
+                              <Button Content="{Binding DisplayName}" Command="{Binding ActivateCommand}" HorizontalContentAlignment="Right" Padding="3" Background="#163C37" />
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </StackPanel>
+                      <Border Grid.Row="4" Grid.ColumnSpan="2" Background="#163C37" CornerRadius="3" Padding="6,3">
+                        <TextBlock Text="{Binding StatusSummary}" Foreground="{Binding StatusColor}" FontSize="11" />
+                      </Border>
+                    </Grid>
+                  </Button>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Canvas>
+      </ScrollViewer>
+
+      <Border Grid.Row="2" Background="#141D25" BorderBrush="#2B3946" BorderThickness="0,1,0,0" Padding="18,12">
+        <Grid ColumnDefinitions="220,*,260">
+          <Border Background="#0F151B" BorderBrush="#2B3946" BorderThickness="1" Padding="8" Margin="0,0,12,0">
+            <Grid RowDefinitions="Auto,*,Auto">
+              <TextBlock Text="PREVIEW" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+              <Image Grid.Row="1" Source="{Binding PreviewBitmap}" Stretch="Uniform" Margin="0,6" />
+              <TextBlock Grid.Row="2" Text="{Binding PreviewSummary}" Foreground="#B9C8D1" FontSize="10" TextWrapping="Wrap" />
+            </Grid>
+          </Border>
+          <Grid Grid.Column="1" RowDefinitions="Auto,*">
+            <TextBlock Text="RUN LOG" Foreground="#6F8494" FontSize="11" FontWeight="Bold" />
+            <ListBox Grid.Row="1" ItemsSource="{Binding Logs}" Background="Transparent" BorderThickness="0" Margin="0,8,0,0" />
+          </Grid>
+          <Border Grid.Column="2" Background="#18222C" BorderBrush="#2B3946" BorderThickness="1" Padding="10" Margin="12,0,0,0">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
+              <Grid ColumnDefinitions="*,*,*">
+                <StackPanel>
+                  <TextBlock Text="RUNS" Foreground="#6F8494" FontSize="9" />
+                  <TextBlock Text="{Binding RunCount}" Foreground="#D6E2E9" FontSize="16" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                  <TextBlock Text="PASS RATE" Foreground="#6F8494" FontSize="9" />
+                  <TextBlock Text="{Binding SuccessRate}" Foreground="#9BE8CC" FontSize="16" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="AVG" Foreground="#6F8494" FontSize="9" />
+                  <TextBlock Text="{Binding AverageRunDuration}" Foreground="#D6E2E9" FontSize="12" />
+                </StackPanel>
+              </Grid>
+              <TextBlock Grid.Row="1" Text="RECENT RUNS" Foreground="#6F8494" FontSize="9" Margin="0,8,0,4" />
+              <ListBox Grid.Row="2" ItemsSource="{Binding RunHistory}" Background="Transparent" BorderThickness="0">
+                <ListBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:RunHistoryItemViewModel">
+                    <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,2">
+                      <TextBlock Text="{Binding TimeText}" Foreground="#8194A2" FontSize="9" />
+                      <TextBlock Grid.Column="1" Text="{Binding Status}" Foreground="#9BE8CC" FontSize="9" Margin="8,0" />
+                      <TextBlock Grid.Column="2" Text="{Binding DurationText}" Foreground="#B9C8D1" FontSize="9" HorizontalAlignment="Right" />
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+              <TextBlock Grid.Row="3" Text="{Binding TrendSummary}" Foreground="#8194A2" FontSize="9" TextWrapping="Wrap" Margin="0,6,0,0" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="1" Grid.Column="2" Background="#141D25" BorderBrush="#2B3946" BorderThickness="1,0,0,0" Padding="16,18">
+      <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto,Auto">
+        <TextBlock Text="TOOLBOX" Foreground="#6F8494" FontSize="11" FontWeight="Bold" />
+        <TextBox Grid.Row="1" Watermark="Search tools" Margin="0,12,0,16" />
+        <StackPanel Grid.Row="2" Spacing="6">
+          <TextBlock Text="TOOLS" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+          <ItemsControl ItemsSource="{Binding Tools}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:ToolItemViewModel">
+                <Button Content="{Binding DisplayName}" Command="{Binding AddCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,6" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+        <Border Grid.Row="3" Background="#18222C" BorderBrush="#2B3946" BorderThickness="1" Padding="12" Margin="0,14,0,0">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+            <TextBlock Text="SELECTED NODE" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedNode.Name, FallbackValue='Select a node'}" Foreground="#F4F7FA" FontSize="15" />
+            <TextBlock Text="{Binding SelectedNode.ToolType}" Foreground="#91A3B1" FontSize="11" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedNode.StatusSummary}" Foreground="{Binding SelectedNode.StatusColor}" FontSize="12" />
+            <ItemsControl Grid.Row="4" ItemsSource="{Binding SelectedParameters}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ToolParameterViewModel">
+                  <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                    <StackPanel>
+                      <TextBlock Text="{Binding DisplayName}" Foreground="#D6E2E9" FontSize="12" />
+                      <TextBlock Text="{Binding Constraints}" Foreground="#8194A2" FontSize="10" />
+                    </StackPanel>
+                    <TextBox Grid.Column="1" Text="{Binding Value}" Width="110" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </Border>
+        <Border Grid.Row="4" Background="#241F25" BorderBrush="#5C4147" BorderThickness="1" Padding="12" Margin="0,14,0,0">
+          <Grid RowDefinitions="Auto,*">
+            <TextBlock Text="ALARMS" Foreground="#E6A7AD" FontSize="10" FontWeight="Bold" />
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Alarms}" Margin="0,6,0,0">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:AlarmItemViewModel">
+                  <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,3">
+                    <StackPanel>
+                      <TextBlock Text="{Binding Code}" Foreground="#F4D8DB" FontSize="11" />
+                      <TextBlock Text="{Binding Message}" Foreground="#B9C8D1" FontSize="10" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding StateText}" Foreground="#E6A7AD" FontSize="10" />
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="Ack" Command="{Binding AcknowledgeCommand}" Padding="5,2" Margin="4,0" />
+                    <Button Grid.Column="2" Content="Clear" Command="{Binding ClearCommand}" Padding="5,2" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </Border>
+        <Border Grid.Row="5" Background="#18222C" BorderBrush="#2B3946" BorderThickness="1" Padding="12" Margin="0,14,0,0">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <TextBlock Text="PROJECT ITEM" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+            <StackPanel Grid.Row="1" IsVisible="{Binding HasSelectedDevice}" Spacing="5" Margin="0,6,0,0">
+              <TextBlock Text="Device name" Foreground="#B9C8D1" FontSize="10" />
+              <TextBox Text="{Binding SelectedDeviceName}" />
+              <TextBlock Text="Settings (key=value;key=value)" Foreground="#8194A2" FontSize="10" />
+              <TextBox Text="{Binding SelectedDeviceSettings}" />
+              <TextBlock Text="{Binding SelectedDevice.StateText}" Foreground="#45D6A7" FontSize="10" />
+              <TextBlock Text="{Binding SelectedDevice.CaptureText}" Foreground="#B9C8D1" FontSize="10" />
+              <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                <TextBlock Text="Device features" Foreground="#B9C8D1" FontSize="10" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="Refresh" Command="{Binding RefreshDeviceFeaturesCommand}" Padding="5,2" />
+              </Grid>
+              <ItemsControl ItemsSource="{Binding DeviceFeatures}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:DeviceFeatureItemViewModel">
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,3,0,0">
+                      <TextBlock Text="{Binding Name}" Foreground="#D6E2E9" FontSize="10" VerticalAlignment="Center" />
+                      <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                        <TextBox Text="{Binding Value}" Width="92" IsReadOnly="{Binding IsReadOnly}" />
+                        <Button Grid.Column="1" Content="Set" Command="{Binding SetCommand}" Padding="5,2" Margin="4,0,0,0" IsEnabled="{Binding !IsReadOnly}" />
+                      </Grid>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+            <StackPanel Grid.Row="2" IsVisible="{Binding HasSelectedRecipe}" Spacing="5" Margin="0,6,0,0">
+              <TextBlock Text="Recipe name" Foreground="#B9C8D1" FontSize="10" />
+              <TextBox Text="{Binding SelectedRecipeName}" />
+            </StackPanel>
+            <TextBlock Grid.Row="3" Text="Changes are written to the project and included on save." Foreground="#8194A2" FontSize="10" TextWrapping="Wrap" Margin="0,8,0,0" />
+          </Grid>
+        </Border>
+        <Border Grid.Row="6" Background="#18222C" BorderBrush="#2B3946" BorderThickness="1" Padding="12" Margin="0,14,0,0">
+          <Grid RowDefinitions="Auto,Auto,*,Auto">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="HMI" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
+                <Button Content="Live" Command="{Binding OpenHmiRuntimeCommand}" Padding="5,2" />
+                <Button Content="+ Widget" Command="{Binding AddHmiWidgetCommand}" Padding="5,2" />
+              </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+              <TextBox Text="{Binding HmiTitle}" Watermark="HMI title" />
+              <TextBox Grid.Column="1" Text="{Binding HmiRefreshInterval}" Width="70" Watermark="ms" Margin="6,0,0,0" />
+            </Grid>
+            <ScrollViewer Grid.Row="2" MaxHeight="170" Margin="0,6,0,0">
+              <ItemsControl ItemsSource="{Binding HmiWidgets}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:HmiWidgetItemViewModel">
+                    <Grid ColumnDefinitions="Auto,*,*,Auto" RowDefinitions="Auto,Auto" Margin="0,3">
+                      <TextBlock Text="{Binding KindText}" Foreground="#8194A2" FontSize="9" VerticalAlignment="Center" Margin="0,0,6,0" />
+                      <TextBox Grid.Column="1" Text="{Binding Title}" Watermark="Title" Margin="0,0,4,0" />
+                      <ComboBox Grid.Column="2"
+                                ItemsSource="{Binding BindingOptions}"
+                                SelectedItem="{Binding SelectedBinding}"
+                                Margin="0,0,4,0"
+                                HorizontalContentAlignment="Stretch">
+                        <ComboBox.ItemTemplate>
+                          <DataTemplate x:DataType="project:HmiDataPointDescriptor">
+                            <TextBlock Text="{Binding DisplayName}" />
+                          </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                      </ComboBox>
+                      <Button Grid.Column="3" Content="Remove" Command="{Binding RemoveCommand}" Padding="5,2" />
+                      <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                 Text="{Binding BindingStatus}"
+                                 Foreground="#9BE8CC"
+                                 FontSize="9"
+                                 TextWrapping="Wrap"
+                                 Margin="0,2,0,0" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+            <TextBlock Grid.Row="3" Text="Widgets are persisted with the project." Foreground="#8194A2" FontSize="9" Margin="0,6,0,0" />
+          </Grid>
+        </Border>
+        <Border Grid.Row="7" Background="#1B2933" CornerRadius="5" Padding="12" Margin="0,14,0,0">
+          <StackPanel Spacing="6">
+            <TextBlock Text="LAST RESULT" Foreground="#6F8494" FontSize="10" FontWeight="Bold" />
+            <TextBlock Text="{Binding LastResult}" Foreground="#9BE8CC" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding ResultSummary}" Foreground="#B9C8D1" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

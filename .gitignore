@@ -1,0 +1,18 @@
+# Build output
+.dotnet/
+bin/
+obj/
+TestResults/
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+
+# Local project data
+artifacts/
+logs/
+*.user.json
+*.log
+native/**/build/

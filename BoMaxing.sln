@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Core", "src\BoMaxing.Core\BoMaxing.Core.csproj", "{4C5A8A6D-8F8D-4A4E-9DA7-3A9B4C2A1E01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Core.Tests", "tests\BoMaxing.Core.Tests\BoMaxing.Core.Tests.csproj", "{0C734AA4-9D79-45D6-98CB-D8D1BA16F003}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E1CEC86-5FD6-44C2-ABBA-E769DFAE728B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Application", "src\BoMaxing.Application\BoMaxing.Application.csproj", "{7C8C9652-CC00-4D0A-B418-066CE45FB367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Demo", "src\BoMaxing.Demo\BoMaxing.Demo.csproj", "{676D1212-F2DF-438A-8528-3696C8FCEFCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Studio", "src\BoMaxing.Studio\BoMaxing.Studio.csproj", "{67F11E67-FB29-4661-AA60-FBDDF1396A16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoMaxing.Service", "src\BoMaxing.Service\BoMaxing.Service.csproj", "{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C5A8A6D-8F8D-4A4E-9DA7-3A9B4C2A1E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C5A8A6D-8F8D-4A4E-9DA7-3A9B4C2A1E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C5A8A6D-8F8D-4A4E-9DA7-3A9B4C2A1E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C5A8A6D-8F8D-4A4E-9DA7-3A9B4C2A1E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C734AA4-9D79-45D6-98CB-D8D1BA16F003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C734AA4-9D79-45D6-98CB-D8D1BA16F003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C734AA4-9D79-45D6-98CB-D8D1BA16F003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C734AA4-9D79-45D6-98CB-D8D1BA16F003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C8C9652-CC00-4D0A-B418-066CE45FB367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C8C9652-CC00-4D0A-B418-066CE45FB367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C8C9652-CC00-4D0A-B418-066CE45FB367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C8C9652-CC00-4D0A-B418-066CE45FB367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{676D1212-F2DF-438A-8528-3696C8FCEFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676D1212-F2DF-438A-8528-3696C8FCEFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{676D1212-F2DF-438A-8528-3696C8FCEFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{676D1212-F2DF-438A-8528-3696C8FCEFCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67F11E67-FB29-4661-AA60-FBDDF1396A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67F11E67-FB29-4661-AA60-FBDDF1396A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67F11E67-FB29-4661-AA60-FBDDF1396A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67F11E67-FB29-4661-AA60-FBDDF1396A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C8C9652-CC00-4D0A-B418-066CE45FB367} = {1E1CEC86-5FD6-44C2-ABBA-E769DFAE728B}
+		{676D1212-F2DF-438A-8528-3696C8FCEFCE} = {1E1CEC86-5FD6-44C2-ABBA-E769DFAE728B}
+		{67F11E67-FB29-4661-AA60-FBDDF1396A16} = {1E1CEC86-5FD6-44C2-ABBA-E769DFAE728B}
+		{A6EF3DA7-2876-46A6-99F5-6EBF49F2C0B0} = {1E1CEC86-5FD6-44C2-ABBA-E769DFAE728B}
+	EndGlobalSection
+EndGlobal

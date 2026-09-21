@@ -1,0 +1,72 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BoMaxing.Studio"
+        x:Class="BoMaxing.Studio.HmiRuntimeWindow"
+        x:DataType="vm:StudioViewModel"
+        Width="1280"
+        Height="760"
+        MinWidth="900"
+        MinHeight="600"
+        Title="{Binding HmiTitle}"
+        Background="#0F151B">
+  <Grid RowDefinitions="56,*">
+    <Border Background="#18222C" BorderBrush="#2B3946" BorderThickness="0,0,0,1" Padding="18,10">
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <StackPanel>
+          <TextBlock Text="{Binding HmiTitle}" Foreground="#F4F7FA" FontSize="18" FontWeight="SemiBold" />
+          <TextBlock Text="{Binding HmiSummary}" Foreground="#8194A2" FontSize="11" />
+        </StackPanel>
+        <Border Grid.Column="1" Background="#163C37" CornerRadius="12" Padding="10,5" Margin="10,0">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Ellipse Width="8" Height="8" Fill="{Binding RuntimeStatusColor}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding RuntimeStatus}" Foreground="#9BE8CC" />
+          </StackPanel>
+        </Border>
+        <TextBlock Grid.Column="2"
+                   Text="{Binding CurrentUserSummary}"
+                   Foreground="#B9C8D1"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <Canvas Width="1160" Height="620" Background="#101820">
+        <Rectangle Canvas.Left="0" Canvas.Top="0" Width="1160" Height="620"
+                   Stroke="#22323C" StrokeDashArray="2,8" />
+        <ItemsControl ItemsSource="{Binding HmiWidgets}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <Canvas />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:HmiWidgetItemViewModel">
+              <Border Canvas.Left="{Binding X}"
+                      Canvas.Top="{Binding Y}"
+                      Width="{Binding Width}"
+                      Height="{Binding Height}"
+                      Background="#18222C"
+                      BorderBrush="#2B3946"
+                      BorderThickness="1"
+                      CornerRadius="5"
+                      Padding="12">
+                <Grid RowDefinitions="Auto,*">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="{Binding Title}" Foreground="#F4F7FA" FontSize="13" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="1" Text="{Binding KindText}" Foreground="#6F8494" FontSize="9" />
+                  </Grid>
+                  <TextBlock Grid.Row="1"
+                             Text="{Binding ResolvedValue}"
+                             Foreground="#9BE8CC"
+                             FontSize="18"
+                             TextWrapping="Wrap"
+                             VerticalAlignment="Center"
+                             Margin="0,8,0,0" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Canvas>
+    </ScrollViewer>
+  </Grid>
+</Window>
